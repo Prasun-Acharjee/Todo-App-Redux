@@ -1,26 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import ToDoInput from "./ToDoInput";
+import ToDoList from "./ToDoList";
+import {connect} from "react-redux";
+import {store} from "./index";
+class App extends React.Component{
+constructor(props){
+  super(props);
+  this.state={item:""}
+}
+handlechange=(event)=>
+{
+  this.setState({item:event.target.value});
+  
+}
+click=()=>
+{
+  store.dispatch({type:"ADD_TODO",payload:this.state.item});
+  this.setState({item:""});
+}
+render() {
+  console.log(this.props.todos);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+    <ToDoInput value={this.state.item} click={this.click} change={this.handlechange} />
+    <ToDoList name={this.props.todos}/>
     </div>
   );
 }
+}
+const mapStateToProps=(state)=>
+{
+  return{todos:state.todo}
+}
 
-export default App;
+//export default App;
+export default connect(mapStateToProps,null)(App);
