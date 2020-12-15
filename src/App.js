@@ -2,7 +2,9 @@ import React from 'react';
 import ToDoInput from "./ToDoInput";
 import ToDoList from "./ToDoList";
 import {connect} from "react-redux";
-import {store} from "./index";
+import {bindActionCreators} from "redux";
+import { addTodo } from "./Action";
+
 class App extends React.Component{
 constructor(props){
   super(props);
@@ -15,23 +17,23 @@ handlechange=(event)=>
 }
 click=()=>
 {
-  store.dispatch({type:"ADD_TODO",payload:this.state.item});
+  this.props.addTodo(this.state.item)
   this.setState({item:""});
 }
 render() {
-  console.log(this.props.todos);
   return (
     <div>
     <ToDoInput value={this.state.item} click={this.click} change={this.handlechange} />
-    <ToDoList name={this.props.todos}/>
+    <ToDoList/>
     </div>
   );
 }
 }
-const mapStateToProps=(state)=>
-{
-  return{todos:state.todo}
+
+
+const mapDispatchToProps=(dispatch)=>{
+  return bindActionCreators({addTodo},dispatch);
 }
 
 //export default App;
-export default connect(mapStateToProps,null)(App);
+export default connect(null,mapDispatchToProps)(App);

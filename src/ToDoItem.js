@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { store } from './index';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import { deleteTodo } from "./Action";
 class ToDoItem extends Component{
     click=()=>
     {
-        store.dispatch({type:"DEL_TODO",payload:this.props.index});
+        this.props.deleteTodo(this.props.index)
     }
     render(){
         return(
@@ -16,4 +18,9 @@ class ToDoItem extends Component{
         );
     }
 }
-export default ToDoItem;
+
+const mapDispatchToProps=(dispatch)=>{
+    return bindActionCreators({deleteTodo},dispatch);
+  }
+
+export default connect(null,mapDispatchToProps)(ToDoItem);

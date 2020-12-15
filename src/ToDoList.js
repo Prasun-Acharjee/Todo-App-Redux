@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ToDoItem from './ToDoItem';
+import {connect} from "react-redux";
 
 class ToDoList extends Component{
     
@@ -7,11 +8,17 @@ class ToDoList extends Component{
         return(
             <div>
                 {
-                    this.props.name.map((element,index)=> <ToDoItem key={element}
-                      element={element} index={index}/>)
+                    this.props.todos.map((element,index)=> <ToDoItem key={element}
+                      element={element} index={index} />)
                 }
                 </div>
         );
     }
 }
-export default ToDoList;
+
+const mapStateToProps=(state)=>
+{
+  return{todos:state.todo}
+}
+
+export default connect(mapStateToProps,null)(ToDoList);
